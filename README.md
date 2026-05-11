@@ -2,6 +2,32 @@
 
 Automated pipeline for generating AI virtual influencer content using ComfyUI on RunPod. A git-based daemon on the pod polls GitHub every 20s for jobs dispatched by Claude, enabling remote-controlled image generation without SSH.
 
+---
+
+## Automation Rules — READ FIRST
+
+This system is FULLY AUTOMATED after initial setup. Claude Code handles everything.
+
+### How it works:
+1. User talks to Claude → Claude pushes job to GitHub via MCP
+2. Daemon on RunPod polls GitHub every 20s → picks up job automatically
+3. Daemon executes job → generates images → pushes results to GitHub
+4. Claude reads results from GitHub → shows user
+
+### User NEVER needs to:
+- Open a pod terminal
+- Copy-paste commands
+- Manually trigger anything
+
+### User ONLY does once (initial setup):
+1. Run `bash /workspace/Zami-girls/daemon/setup.sh` on the pod
+2. Enter GitHub PAT when prompted (needs repo write scope)
+
+### If Claude can't push to GitHub:
+- This happens when the MCP write token expires for a specific session
+- Fix: Start a new Claude Code session (takes 30 seconds)
+- The system design is correct — this is a temporary session issue
+
 - **Repo**: https://github.com/Se7en198/Zami-girls
 - **Branch**: `claude/ugc-profile-generator-PxVGb`
 - **Pod**: `4yjpcxmu17d344` — 1001 GB Network Volume

@@ -3,6 +3,9 @@ name: zami-portrait-generator
 description: "Genera retratos de modelos virtuales Zami Girls usando el nodo AION Portrait Master en ComfyUI (RunPod). Controla 33 parámetros morfológicos para crear identidades latinas únicas y cautivadoras."
 ---
 
+> **AUTOMATION**: Claude pushes all jobs. User NEVER runs terminal commands after initial setup.
+> If generation isn't starting: restart Claude Code session (MCP write token may have expired).
+
 # ZAMI GIRLS — PORTRAIT GENERATOR
 
 ## Arquitectura
