@@ -83,10 +83,10 @@ alter table content_posts      enable row level security;
 alter table community_responses enable row level security;
 alter table kpi_reports        enable row level security;
 
--- Allow authenticated team members full access
-create policy "team_all" on models              for all using (auth.role() = 'authenticated');
-create policy "team_all" on phase_images        for all using (auth.role() = 'authenticated');
-create policy "team_all" on model_profiles      for all using (auth.role() = 'authenticated');
-create policy "team_all" on content_posts       for all using (auth.role() = 'authenticated');
-create policy "team_all" on community_responses for all using (auth.role() = 'authenticated');
-create policy "team_all" on kpi_reports         for all using (auth.role() = 'authenticated');
+-- Allow full access via anon key (internal team tool)
+create policy "allow_all" on models              for all to anon using (true) with check (true);
+create policy "allow_all" on phase_images        for all to anon using (true) with check (true);
+create policy "allow_all" on model_profiles      for all to anon using (true) with check (true);
+create policy "allow_all" on content_posts       for all to anon using (true) with check (true);
+create policy "allow_all" on community_responses for all to anon using (true) with check (true);
+create policy "allow_all" on kpi_reports         for all to anon using (true) with check (true);
