@@ -1,13 +1,22 @@
 #!/bin/bash
-# JOB: Push commits pendientes a GitHub
-PAT=$(cat /workspace/.zami_pat | tr -d '\n\r')
-REMOTE="https://${PAT}@github.com/Se7en198/Zami-girls.git"
-BRANCH="claude/ugc-profile-generator-PxVGb"
+# JOB: Diagnóstico de PAT y push forzado
+PAT=$(cat /workspace/.zami_pat | tr -d '\n\r' | tr -d ' ')
+PAT_LEN=${#PAT}
+PAT_START="${PAT:0:8}"
 
+echo "▸ PAT longitud: $PAT_LEN caracteres"
+echo "▸ PAT inicio: ${PAT_START}..."
+
+# Test con curl directamente
+echo "▸ Test curl auth:"
+HTTP=$(curl -s -o /dev/null -w "%{http_code}" \
+    -H "Authorization: token $PAT" \
+    https://api.github.com/user)
+echo "  GitHub API responde: $HTTP"
+
+# Push con formato username:token
+echo "▸ Intentando push con Se7en198:TOKEN..."
 cd /workspace/Zami-girls
-
-echo "▸ Commits pendientes:"
-git log --oneline origin/"$BRANCH"..HEAD 2>/dev/null || git log --oneline -3
-
-echo "▸ Pusheando..."
-git push "$REMOTE" HEAD:"$BRANCH" && echo "✓ Push exitoso" || echo "✗ Push falló"
+git push "https://Se7en198:${PAT}@github.com/Se7en198/Zami-girls.git" \
+    HEAD:claude/ugc-profile-generator-PxVGb \
+    && echo "✓ Push exitoso" || echo "✗ Push falló"
