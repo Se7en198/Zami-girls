@@ -290,5 +290,46 @@ def main():
         print(f"  Ver             : {url}")
     print(f"\n✓ {len(results)}/3 modelos en: {OUTPUT_DIR}\n")
 
+    # ─── GIT PUSH ─────────────────────────────────────────────────────────────
+    import subprocess, shutil, os
+
+    pat_file = Path("/workspace/.zami_pat")
+    if not pat_file.exists():
+        print("⚠  /workspace/.zami_pat no encontrado — saltando git push")
+        return
+
+    pat    = pat_file.read_text().strip().strip("\n\r ")
+    remote = f"https://{pat}@github.com/Se7en198/Zami-girls.git"
+    branch = "claude/ugc-profile-generator-PxVGb"
+    repo   = Path(__file__).parent
+
+    def run(cmd, **kw):
+        return subprocess.run(cmd, shell=True, cwd=repo, check=True, **kw)
+
+    print("▸ Sincronizando con remoto...")
+    run(f'git fetch "{remote}" {branch}:refs/remotes/origin/{branch}', stderr=subprocess.DEVNULL)
+    run(f'git reset --hard refs/remotes/origin/{branch}')
+
+    daemon_out = repo / "daemon" / "output"
+    daemon_out.mkdir(parents=True, exist_ok=True)
+
+    print("▸ Copiando imágenes a daemon/output/...")
+    copied = []
+    for r in results:
+        src  = r["file"]
+        dest = daemon_out / src.name
+        shutil.copy2(src, dest)
+        copied.append(dest.relative_to(repo))
+        print(f"  ✓ {src.name}")
+
+    if not copied:
+        print("  (sin imágenes que commitear)")
+        return
+
+    run("git add daemon/output/")
+    run('git commit -m "output: 3 nuevas latinas generadas"')
+    run(f'git push "{remote}" HEAD:{branch}')
+    print("✓ Pusheado a GitHub\n")
+
 if __name__ == "__main__":
     main()

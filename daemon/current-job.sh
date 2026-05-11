@@ -1,5 +1,7 @@
 #!/bin/bash
-# JOB: Inspeccionar workflows disponibles en ComfyUI + nodo GeminiNanoBanana2
+# JOB: Generar 3 nuevas latinas — Cubana + Mexicana + Caribeña
+set -euo pipefail
+
 PAT=$(cat /workspace/.zami_pat | tr -d '\n\r ')
 REMOTE="https://${PAT}@github.com/Se7en198/Zami-girls.git"
 BRANCH="claude/ugc-profile-generator-PxVGb"
@@ -7,52 +9,19 @@ REPO_DIR="/workspace/Zami-girls"
 
 cd "$REPO_DIR"
 
-echo "=== WORKFLOWS EN /workspace ==="
-find /workspace -name "*.json" | grep -i "workflow\|portrait\|aion\|zimage\|turbo\|creador\|rostro" 2>/dev/null | head -20
-
-echo ""
-echo "=== CUSTOM NODES INSTALADOS ==="
-ls /workspace/runpod-slim/ComfyUI/custom_nodes/ 2>/dev/null | head -30
-
-echo ""
-echo "=== BÚSQUEDA GeminiNanoBanana ==="
-find /workspace/runpod-slim/ComfyUI/custom_nodes -name "*.py" | xargs grep -l "NanoBanana\|nanobana\|GeminiNana" 2>/dev/null | head -10
-
-echo ""
-echo "=== WORKFLOWS EN ComfyUI ==="
-ls /workspace/runpod-slim/ComfyUI/user/default/workflows/ 2>/dev/null
-ls /workspace/runpod-slim/ComfyUI/workflows/ 2>/dev/null
-
-echo ""
-echo "=== NUESTRO WORKFLOW ACTUAL ==="
-python3 -c "
-import json
-try:
-    wf = json.load(open('src/workflows/face-generation.json'))
-    for k,v in wf.items():
-        print(f'  Node {k}: {v.get(\"class_type\",\"?\")} — {v.get(\"_meta\",{}).get(\"title\",\"\")}')
-except Exception as e:
-    print('Error:', e)
-"
-
-# Pushear resultado
+# Sync with remote before running so we start from a clean state
 git fetch "$REMOTE" "$BRANCH":refs/remotes/origin/"$BRANCH" 2>/dev/null
 git reset --hard refs/remotes/origin/"$BRANCH"
-mkdir -p daemon/results
-{
-    echo "=== WORKFLOWS EN /workspace ==="
-    find /workspace -name "*.json" | grep -i "workflow\|portrait\|aion\|zimage\|turbo\|creador\|rostro" 2>/dev/null
-    echo ""
-    echo "=== CUSTOM NODES ==="
-    ls /workspace/runpod-slim/ComfyUI/custom_nodes/ 2>/dev/null
-    echo ""
-    echo "=== GeminiNanaBanana search ==="
-    find /workspace/runpod-slim/ComfyUI/custom_nodes -name "*.py" | xargs grep -l "NanoBanana\|Nano_Banana\|GeminiNana" 2>/dev/null
-    echo ""
-    echo "=== ComfyUI workflows folder ==="
-    find /workspace/runpod-slim/ComfyUI -name "*.json" -path "*/workflows/*" 2>/dev/null | head -20
-} > daemon/results/workflow-inspection.txt
 
-git add daemon/results/workflow-inspection.txt
-git commit -m "result: workflow inspection + gemini banana search"
-git push "$REMOTE" HEAD:"$BRANCH" && echo "✓ Pusheado" || echo "✗ Push falló"
+echo "=== Generando 3 nuevas latinas ==="
+python3 test-nuevas-latinas.py
+
+# The python script handles its own git push:
+#   1. Fetches remote branch
+#   2. Resets hard to remote
+#   3. Copies test-output/ images to daemon/output/
+#   4. git add daemon/output/
+#   5. git commit -m "output: 3 nuevas latinas generadas"
+#   6. git push
+
+echo "=== Job completado ==="

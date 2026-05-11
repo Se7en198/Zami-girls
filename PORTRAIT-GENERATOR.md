@@ -22,6 +22,10 @@ description: "Genera retratos de modelos virtuales Zami Girls usando el nodo AIO
 | 14 | KSamplerAdvanced — noise_seed |
 | 73 | SeedVarianceEnhancer |
 | 6/57 | SaveImage |
+| 93 | `GeminiNanoBanana2` — character sheet generator (requiere Gemini API key) |
+| 94 | `SaveImage` — guarda el character sheet output |
+
+El workflow `face-generation-nano-banana.json` incluye los nodos 93+94 para generar character sheets de 5 vistas (close portrait + front + right side + left side + back) en formato 16:9.
 
 ## Motor Fase 2 — Nodos clave
 
@@ -31,6 +35,32 @@ description: "Genera retratos de modelos virtuales Zami Girls usando el nodo AIO
 | 321 | TextEncodeQwenImageEditPlus — prompt del cuerpo |
 | 333 | KSampler — seed |
 | 334 | SEXGOD LoRA |
+
+## GeminiNanoBanana2 — Character Sheet
+
+Genera una lámina de 5 vistas del personaje en una sola imagen 16:9.
+
+- **Requiere**: Gemini API key (gratis en [aistudio.google.com](https://aistudio.google.com))
+- **Modelo**: "Nano Banana 2 (Gemini 3.1 Flash Image)"
+- **Motor**: Gemini 3.1 Flash Image
+- **Vistas**: close portrait + front + right side + left side + back
+- **Aspect ratio**: 16:9 — **Resolución**: 1K
+- **Workflow**: `src/workflows/face-generation-nano-banana.json`
+- **Configuración**: set `gemini_api_key` en el nodo 82 (`AionFluxPrompterNode`)
+
+## Fase 2 — Body Generation
+
+Toma un rostro seleccionado de Fase 1 y genera el cuerpo completo vía img2img.
+
+- **Workflow**: `src/workflows/body-generation.json`
+- **Model**: `qwen_image_edit_2511_bf16.safetensors` (Qwen Image Edit)
+- **CLIP**: `qwen_2.5_vl_7b_fp8_scaled.safetensors`
+- **VAE**: `qwen_image_vae.safetensors`
+- **Nodos clave**:
+  - `41` — `LoadImage`: carga la cara de referencia (output de Fase 1)
+  - `321` — `TextEncodeQwenImageEditPlus`: prompt positivo del cuerpo
+  - `333` — `KSampler`: seed de generación
+- **Script**: `test-fase2.py <comfyui_filename>`
 
 ## Los 33 Parámetros AION (con opciones válidas)
 
@@ -127,6 +157,11 @@ Antes de avanzar a Fase 2:
 
 ## Scripts
 
-- `test-latinas.py` — genera perfiles latinos con parámetros AION completos
-- `test-fase2.py <comfyui_filename>` — genera 4 variaciones de cuerpo
-- `daemon/zami-daemon.sh` — daemon de control remoto vía GitHub
+| Script | Descripción |
+|--------|-------------|
+| `test-latinas.py` | Genera perfiles latinos con parámetros AION completos |
+| `test-nuevas-latinas.py` | 3 nuevos perfiles latinas (Cubana, Mexicana, Caribeña) |
+| `test-fase2.py <comfyui_filename>` | Body generation desde la cara seleccionada |
+| `daemon/zami-daemon.sh` | Daemon de control remoto vía GitHub |
+| `daemon/setup.sh` | Setup ONE-TIME en el pod (lanza el daemon) |
+| `daemon/push-job.sh <job_file>` | Pushea un nuevo job al daemon desde el pod |
