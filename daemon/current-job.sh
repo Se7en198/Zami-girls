@@ -1,31 +1,25 @@
 #!/bin/bash
-# JOB: Corregir PAT duplicado y hacer push
-PAT_FILE="/workspace/.zami_pat"
+# JOB: Copiar imágenes, commitear y pushear a GitHub
+PAT=$(cat /workspace/.zami_pat | tr -d '\n\r ')
+REMOTE="https://${PAT}@github.com/Se7en198/Zami-girls.git"
+BRANCH="claude/ugc-profile-generator-PxVGb"
+REPO_DIR="/workspace/Zami-girls"
+OUTPUT_DIR="$REPO_DIR/test-output"
+IMG_DIR="$REPO_DIR/daemon/output"
 
-# El PAT tiene 80 chars (duplicado), debe ser 40 — tomar solo la primera mitad
-CURRENT_LEN=$(cat "$PAT_FILE" | tr -d '\n\r' | wc -c)
-echo "▸ Longitud actual del PAT: $CURRENT_LEN"
+cd "$REPO_DIR"
 
-if [ "$CURRENT_LEN" -gt 40 ]; then
-    head -c 40 "$PAT_FILE" > /tmp/pat_fix
-    echo "" >> /tmp/pat_fix
-    mv /tmp/pat_fix "$PAT_FILE"
-    chmod 600 "$PAT_FILE"
-    echo "✓ PAT corregido a 40 caracteres"
-fi
+echo "▸ Imágenes en test-output:"
+ls "$OUTPUT_DIR"/*.png 2>/dev/null || echo "NINGUNA"
 
-PAT=$(cat "$PAT_FILE" | tr -d '\n\r')
-echo "▸ Nueva longitud: ${#PAT}"
+mkdir -p "$IMG_DIR"
+cp "$OUTPUT_DIR"/*.png "$IMG_DIR/" 2>/dev/null
 
-# Test
-HTTP=$(curl -s -o /dev/null -w "%{http_code}" \
-    -H "Authorization: token $PAT" \
-    https://api.github.com/user)
-echo "▸ GitHub API: $HTTP"
+echo "▸ Imágenes copiadas:"
+ls -lh "$IMG_DIR/"
 
-# Push
-cd /workspace/Zami-girls
-git push "https://${PAT}@github.com/Se7en198/Zami-girls.git" \
-    HEAD:claude/ugc-profile-generator-PxVGb \
-    && echo "✓ Push exitoso — imágenes en GitHub" \
-    || echo "✗ Push falló"
+git add daemon/output/
+git diff --cached --quiet && echo "Ya estaban commiteadas" || git commit -m "images: rostros latinas generados"
+
+echo "▸ Pusheando a GitHub..."
+git push "$REMOTE" HEAD:"$BRANCH" && echo "✓ LISTO — imágenes en GitHub" || echo "✗ Push falló"
