@@ -1,0 +1,214 @@
+=== WORKFLOWS EN /workspace ===
+/workspace/Zami-girls/src/workflows/body-generation.json
+/workspace/Zami-girls/src/workflows/face-generation.json
+/workspace/runpod-slim/ComfyUI/blueprints/Text to Image (Z-Image-Turbo).json
+/workspace/runpod-slim/ComfyUI/blueprints/Pose to Image (Z-Image-Turbo).json
+/workspace/runpod-slim/ComfyUI/blueprints/Image Upscale(Z-image-Turbo).json
+/workspace/runpod-slim/ComfyUI/blueprints/Depth to Image (Z-Image-Turbo).json
+/workspace/runpod-slim/ComfyUI/blueprints/Canny to Image (Z-Image-Turbo).json
+/workspace/runpod-slim/ComfyUI/custom_nodes/comfyui_ultimatesdupscale/example_workflows/basic-usdu.json
+/workspace/runpod-slim/ComfyUI/custom_nodes/comfyui-easy-use/resources/portrait_prompt.json
+/workspace/runpod-slim/ComfyUI/custom_nodes/comfyui-impact-pack/tests/workflows/regional_prompt.json
+/workspace/runpod-slim/ComfyUI/custom_nodes/comfyui-impact-pack/tests/workflows/masks.json
+/workspace/runpod-slim/ComfyUI/custom_nodes/comfyui-impact-pack/tests/workflows/loop-test.json
+/workspace/runpod-slim/ComfyUI/custom_nodes/comfyui-impact-pack/tests/workflows/impactwildcardprocessor_yaml_tests.json
+/workspace/runpod-slim/ComfyUI/custom_nodes/comfyui-impact-pack/tests/workflows/impactwildcardprocessor_separate_tests.json
+/workspace/runpod-slim/ComfyUI/custom_nodes/comfyui-impact-pack/tests/workflows/detailer-pipe-test.json
+/workspace/runpod-slim/ComfyUI/custom_nodes/comfyui-impact-pack/tests/workflows/detailer-pipe-test-sdxl.json
+/workspace/runpod-slim/ComfyUI/custom_nodes/comfyui-impact-pack/tests/workflows/advanced-sampler.json
+/workspace/runpod-slim/ComfyUI/custom_nodes/comfyui-impact-pack/example_workflows/6-DetailerWildcard.json
+/workspace/runpod-slim/ComfyUI/custom_nodes/comfyui-impact-pack/example_workflows/5-prompt-per-tile.json
+/workspace/runpod-slim/ComfyUI/custom_nodes/comfyui-impact-pack/example_workflows/5-PreviewDetailerHookProvider.json
+/workspace/runpod-slim/ComfyUI/custom_nodes/comfyui-impact-pack/example_workflows/4-MakeTileSEGS-Upscale.json
+/workspace/runpod-slim/ComfyUI/custom_nodes/comfyui-impact-pack/example_workflows/3-SEGSDetailer.json
+/workspace/runpod-slim/ComfyUI/custom_nodes/comfyui-impact-pack/example_workflows/2-MaskDetailer.json
+/workspace/runpod-slim/ComfyUI/custom_nodes/comfyui-impact-pack/example_workflows/1-FaceDetailer.json
+/workspace/runpod-slim/ComfyUI/custom_nodes/comfyui-grid-split/Selectable Grid – Nano Banana Storyboard Workflow 5x2.json
+/workspace/runpod-slim/ComfyUI/custom_nodes/ComfyUI_AION/configs/volumes.json
+/workspace/runpod-slim/ComfyUI/custom_nodes/ComfyUI_AION/configs/structure.json
+/workspace/runpod-slim/ComfyUI/custom_nodes/ComfyUI_AION/configs/skin.json
+/workspace/runpod-slim/ComfyUI/custom_nodes/ComfyUI_AION/configs/photo_types.json
+/workspace/runpod-slim/ComfyUI/custom_nodes/ComfyUI_AION/configs/nose.json
+/workspace/runpod-slim/ComfyUI/custom_nodes/ComfyUI_AION/configs/lips.json
+/workspace/runpod-slim/ComfyUI/custom_nodes/ComfyUI_AION/configs/hair.json
+/workspace/runpod-slim/ComfyUI/custom_nodes/ComfyUI_AION/configs/eyes.json
+/workspace/runpod-slim/ComfyUI/custom_nodes/ComfyUI_AION/configs/eyebrows.json
+/workspace/runpod-slim/ComfyUI/custom_nodes/ComfyUI_AION/configs/expressions.json
+/workspace/runpod-slim/ComfyUI/custom_nodes/ComfyUI_AION/configs/demographics.json
+/workspace/runpod-slim/ComfyUI/custom_nodes/ComfyUI_AION/configs/defects.json
+/workspace/runpod-slim/ComfyUI/custom_nodes/ComfyUI-KJNodes/example_workflows/leapfusion_hunyuuanvideo_i2v_native_testing.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/UNCHAINED IA/NSFW_NudeImg2Img.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/2X LORA 2.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/CUTE YOU 5.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/POSE EDITOR 2.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/REMOVE BG 7.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/TEXTURE 3D.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/RECOLOR 3.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/MORPH  7 V2.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/DEPTHMAP 7.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/PARTY 4.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/BODYSWAP 4.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/PAINTER 2.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/ILLUSION 2.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/MOTION 3.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/PRODUCT BG V2.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/IC LIGHT 2.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/HALLOWEEN 2.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/CARTOON STYLE 2.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/3D MESH TRELLIS.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/LIVEPORTRAIT 3.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/ISOMETRIC STYLE.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/SKETCH IT 6.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/FACEFIX.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/SEGMENT ANYTHING.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/RESTORE IMG.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/360 PANORAMA 2.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/HUNYUAN 3D.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/GREYSCALE MAP.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/FLORENCE IMAGE CAPTIONING 2.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/RETOUCH PRO 3.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/EXPRESSION EDITOR.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/VFX TOOL.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/PHOTOMAKER.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/WATERMARK 3.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/ZOOM.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/LLM PROMPT GENERATOR.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/PORTRAIT MASTER.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/GEMMA LLM.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/TRY ON CATVTON.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/2000px.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/STUDIO NODES.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/FACEBOOK 3D.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/8-XXX/REALISM SDXL 7.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/8-XXX/INFLUENCER.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/8-XXX/WAN IMG2VID XXX 2.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/8-XXX/WAN 22 XXX.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/8-XXX/BLOWJOB VID2VID.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/8-XXX/FLUX XXX 4.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/8-XXX/BLOWJOB IMG2VID.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/8-XXX/INFINITE SEX VIDEO 2.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/8-XXX/BOUNCY WALK 2.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/8-XXX/SDXL XXX batch.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/8-XXX/KLEIN NSFW.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/7-UPSCALE/2000px LATENT UPSCALE 4.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/7-UPSCALE/VIDEO UPSCALE FLASH VR.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/7-UPSCALE/FLUX UPSCALE 2.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/7-UPSCALE/SEED VR2 img and vid.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/7-UPSCALE/LTX VIDEO UPSCALER.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/7-UPSCALE/ULTIMATE SD UPSCALE.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/7-UPSCALE/4X QUICK UPSCALE.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/6-INPAINT/INPAINT PRO 7.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/6-INPAINT/INPAINT KING 2.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/6-INPAINT/FLUX FILL + AUTOMASK.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/5-BATCH/FLUX BATCH + UPSCALE.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/5-BATCH/BATCH 3.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/5-BATCH/294 STYLES 2.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/5-BATCH/275 FOOOCUS STYLES 4.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/5-BATCH/WILDCARDS 4.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/5-BATCH/WILD-PROMPTER 7.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/5-BATCH/ABC STYLER 2.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/5-BATCH/1845 ARTIST.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/5-BATCH/WEBGALLERY.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/5-BATCH/2000px BATCH.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/4-FACESWAP/ID 11.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/4-FACESWAP/FACESWAP 8.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/4-FACESWAP/PULID 5.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/4-FACESWAP/ACE++ 5.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/4-FACESWAP/QWEN FACESWAP.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/3-CHARACTER/CHARACTER V2.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/3-CHARACTER/CHARACTER.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/3-CHARACTER/CHARACTER V3.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/2-VIDEO/WAN 22 LONG SVI.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/2-VIDEO/WAN MULTITALK 2.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/2-VIDEO/WAN MOCHA 2.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/2-VIDEO/VACE GGUF 6.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/2-VIDEO/WAN 6.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/2-VIDEO/WAN EFFECTS 20.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/2-VIDEO/WAN FANTASY PORTRAIT 2.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/2-VIDEO/WAN INFINITE TALK 3.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/2-VIDEO/VIDEO sd 1.5.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/2-VIDEO/WAN 22 FLF LONG.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/2-VIDEO/WAN 22 LOOP.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/2-VIDEO/WAN 21 BINDWEAVE 2.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/2-VIDEO/WAN 22 ANIMATE 3.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/2-VIDEO/WAN 22 5.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/2-VIDEO/WAN 21 SCAIL.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/2-VIDEO/FRAME PACK 2.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/2-VIDEO/WAN 21 STEADY DANCER.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/2-VIDEO/WAN RECAMMASTER.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/2-VIDEO/WAN 22 VACE.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/2-VIDEO/WAN PHANTOM.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/2-VIDEO/WAN TXT2VID HQ.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/2-VIDEO/TRANSPARENT VIDEO.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/2-VIDEO/WAN FANTASY TALK.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/2-VIDEO/HOLO CINE.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/1-AUDIO/VOICE-CLONER 3.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/1-AUDIO/AUDIO SFX.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/1-AUDIO/SUBTITLES 2.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/1-AUDIO/AUDIO CAPTION.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/1-AUDIO/MMAUDIO.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/1-AUDIO/QWEN3 TTS.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/1-AUDIO/SFX TO VIDEO.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/1-AUDIO/MUSIC GENERATOR ACE.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/1-AUDIO/LIPSYNC.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/1-AUDIO/VIBE VOICE 2.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/1-AUDIO/AUDIO SEPARATION.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/1-AUDIO/LIPSYNC FLOAT.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/1-AUDIO/LIPSYNC SONIC.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/1-AUDIO/LIPSYNC vid2vid.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/0-IMAGE/FLUX/FLUX ORIGINAL 13.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/0-IMAGE/FLUX/FLUX GGUF 12.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/0-IMAGE/FLUX/FLUX 2 klein 4b 9b.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/0-IMAGE/FLUX/FLUX KONTEXT 7.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/0-IMAGE/FLUX/FLUX KREA 6.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/0-IMAGE/FLUX/FLUX SRPO.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/0-IMAGE/FLUX/FLUX 2.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/0-IMAGE/QWEN/QWEN IMG 12.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/0-IMAGE/QWEN/QWEN MULTIPLE ANGLES.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/0-IMAGE/WAN 22 IMAGE 4.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/0-IMAGE/Z IMAGE 6.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/0-IMAGE/SDXL 12.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/0-IMAGE/HIDREAM 4.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/0-IMAGE/WAN IMAGE 4.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/0-IMAGE/SKIN FIX 3.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/0-IMAGE/SD3.5.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/AION THEOS/AION - Portrait Master Prompter - Z-image turbo.json
+
+=== CUSTOM NODES ===
+Civicomfy
+ComfyUI-KJNodes
+ComfyUI-Manager
+ComfyUI-RunpodDirect
+ComfyUI_AION
+__pycache__
+comfyui-easy-use
+comfyui-grid-split
+comfyui-impact-pack
+comfyui_neural_atelier
+comfyui_ultimatesdupscale
+rgthree-comfy
+seedvarianceenhancer
+
+=== GeminiNanaBanana search ===
+
+=== ComfyUI workflows folder ===
+/workspace/runpod-slim/ComfyUI/custom_nodes/comfyui-impact-pack/tests/workflows/regional_prompt.json
+/workspace/runpod-slim/ComfyUI/custom_nodes/comfyui-impact-pack/tests/workflows/masks.json
+/workspace/runpod-slim/ComfyUI/custom_nodes/comfyui-impact-pack/tests/workflows/loop-test.json
+/workspace/runpod-slim/ComfyUI/custom_nodes/comfyui-impact-pack/tests/workflows/impactwildcardprocessor_yaml_tests.json
+/workspace/runpod-slim/ComfyUI/custom_nodes/comfyui-impact-pack/tests/workflows/impactwildcardprocessor_separate_tests.json
+/workspace/runpod-slim/ComfyUI/custom_nodes/comfyui-impact-pack/tests/workflows/detailer-pipe-test.json
+/workspace/runpod-slim/ComfyUI/custom_nodes/comfyui-impact-pack/tests/workflows/detailer-pipe-test-sdxl.json
+/workspace/runpod-slim/ComfyUI/custom_nodes/comfyui-impact-pack/tests/workflows/advanced-sampler.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/UNCHAINED IA/NSFW_NudeImg2Img.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/2X LORA 2.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/CUTE YOU 5.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/POSE EDITOR 2.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/REMOVE BG 7.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/TEXTURE 3D.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/RECOLOR 3.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/MORPH  7 V2.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/DEPTHMAP 7.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/PARTY 4.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/BODYSWAP 4.json
+/workspace/runpod-slim/ComfyUI/user/default/workflows/PROMPT MODELS/PAINTER 2.json
