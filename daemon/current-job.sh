@@ -1,5 +1,6 @@
 #!/bin/bash
 # JOB: Generar 3 nuevas latinas — Cubana + Mexicana + Caribeña
+# Triggered: 2026-05-11
 set -euo pipefail
 
 PAT=$(cat /workspace/.zami_pat | tr -d '\n\r ')
@@ -9,19 +10,16 @@ REPO_DIR="/workspace/Zami-girls"
 
 cd "$REPO_DIR"
 
-# Sync with remote before running so we start from a clean state
 git fetch "$REMOTE" "$BRANCH":refs/remotes/origin/"$BRANCH" 2>/dev/null
 git reset --hard refs/remotes/origin/"$BRANCH"
 
 echo "=== Generando 3 nuevas latinas ==="
+mkdir -p daemon/output test-output
 python3 test-nuevas-latinas.py
 
-# The python script handles its own git push:
-#   1. Fetches remote branch
-#   2. Resets hard to remote
-#   3. Copies test-output/ images to daemon/output/
-#   4. git add daemon/output/
-#   5. git commit -m "output: 3 nuevas latinas generadas"
-#   6. git push
+cp test-output/*.png daemon/output/ 2>/dev/null || true
+git add daemon/output/
+git commit -m "output: 3 latinas Cubana+Mexicana+Caribena $(date +%Y%m%d-%H%M)" 2>/dev/null || true
+git push "$REMOTE" HEAD:"$BRANCH" && echo "=== OK imagenes pusheadas ===" || echo "=== WARN: push falló, intentando de nuevo ===" && git push "$REMOTE" HEAD:"$BRANCH"
 
 echo "=== Job completado ==="
