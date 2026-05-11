@@ -234,6 +234,15 @@ def main():
         result = run(f'git push "{remote}" HEAD:{branch}')
         if result.returncode == 0:
             print(f"  ✓ Imagen pusheada a GitHub: daemon/output/{dest.name}")
+            # Auto-sync main
+            sync = repo / "daemon" / "sync-main.sh"
+            if sync.exists():
+                r = subprocess.run(f'bash "{sync}"', shell=True, cwd=repo,
+                                   capture_output=True, text=True)
+                if r.returncode == 0:
+                    print("  ✓ main sincronizado automáticamente")
+                else:
+                    print(f"  ⚠ sync-main: {r.stderr[:100]}")
         else:
             print(f"  ✗ Push falló: {result.stderr}")
 

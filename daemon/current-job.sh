@@ -18,3 +18,6 @@ mkdir -p daemon/output test-output
 python3 test-modelo-latina.py
 
 echo "=== Job completado ==="
+
+# Auto-merge a main para que siempre esté actualizado
+bash "$REPO_DIR/daemon/sync-main.sh" || echo "⚠ sync-main falló (no crítico)"

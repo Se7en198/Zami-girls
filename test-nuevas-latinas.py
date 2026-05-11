@@ -331,5 +331,12 @@ def main():
     run(f'git push "{remote}" HEAD:{branch}')
     print("✓ Pusheado a GitHub\n")
 
+    # Auto-sync main
+    sync = repo / "daemon" / "sync-main.sh"
+    if sync.exists():
+        r = subprocess.run(f'bash "{sync}"', shell=True, cwd=repo,
+                           capture_output=True, text=True)
+        print("✓ main sincronizado" if r.returncode == 0 else f"⚠ sync-main: {r.stderr[:80]}")
+
 if __name__ == "__main__":
     main()
