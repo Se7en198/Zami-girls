@@ -1,29 +1,21 @@
 #!/bin/bash
-# JOB: Fase 2 — Generar 4 cuerpos para rostro-2
+# JOB: Generar 3 nuevas latinas top 2025-2026 + pushear a GitHub
+PAT=$(cat /workspace/.zami_pat | tr -d '\n\r ')
+REMOTE="https://${PAT}@github.com/Se7en198/Zami-girls.git"
+BRANCH="claude/ugc-profile-generator-PxVGb"
 REPO_DIR="/workspace/Zami-girls"
-TEST_OUTPUT="$REPO_DIR/test-output"
-COMFYUI_INPUT="/workspace/runpod-slim/ComfyUI/input"
+IMG_DIR="$REPO_DIR/daemon/output"
 
-echo "▸ Archivos en test-output:"
-ls -lh "$TEST_OUTPUT"/*.png 2>/dev/null
-
-# Rostro 2 seleccionado por el usuario
-FACE_PNG="$TEST_OUTPUT/rostro-2-seed826112501169234.png"
-
-if [ ! -f "$FACE_PNG" ]; then
-    echo "✗ No se encontró rostro-2. Buscando alternativas..."
-    ls "$TEST_OUTPUT"/*.png 2>/dev/null
-    exit 1
-fi
-
-echo ""
-echo "▸ Copiando rostro-2 al input de ComfyUI..."
-mkdir -p "$COMFYUI_INPUT"
-cp "$FACE_PNG" "$COMFYUI_INPUT/rostro-2-selected.png"
-echo "✓ Copiado como: rostro-2-selected.png"
-
-echo ""
-echo "▸ Iniciando Fase 2 — 4 variaciones de cuerpo..."
+echo "[$(date)] ▸ Generando 3 nuevas latinas..."
 cd "$REPO_DIR"
-python3 test-fase2.py "rostro-2-selected.png"
-echo "✓ Fase 2 completada"
+python3 test-nuevas-latinas.py
+
+echo "[$(date)] ▸ Pusheando imágenes a GitHub..."
+mkdir -p "$IMG_DIR"
+cp test-output/Cubana-*.png "$IMG_DIR/" 2>/dev/null
+cp test-output/Mexicana-*.png "$IMG_DIR/" 2>/dev/null
+cp test-output/Caribeña-*.png "$IMG_DIR/" 2>/dev/null
+
+git add daemon/output/ PORTRAIT-GENERATOR.md
+git diff --cached --quiet || git commit -m "images: 3 nuevas latinas top 2025-2026"
+git push "$REMOTE" HEAD:"$BRANCH" && echo "✓ Pusheado" || echo "✗ Push falló"
