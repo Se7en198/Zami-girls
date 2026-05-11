@@ -1,25 +1,29 @@
 #!/bin/bash
-# JOB: Copiar imágenes, commitear y pushear a GitHub
-PAT=$(cat /workspace/.zami_pat | tr -d '\n\r ')
-REMOTE="https://${PAT}@github.com/Se7en198/Zami-girls.git"
-BRANCH="claude/ugc-profile-generator-PxVGb"
+# JOB: Fase 2 — Generar 4 cuerpos para rostro-2
 REPO_DIR="/workspace/Zami-girls"
-OUTPUT_DIR="$REPO_DIR/test-output"
-IMG_DIR="$REPO_DIR/daemon/output"
+TEST_OUTPUT="$REPO_DIR/test-output"
+COMFYUI_INPUT="/workspace/runpod-slim/ComfyUI/input"
 
+echo "▸ Archivos en test-output:"
+ls -lh "$TEST_OUTPUT"/*.png 2>/dev/null
+
+# Rostro 2 seleccionado por el usuario
+FACE_PNG="$TEST_OUTPUT/rostro-2-seed826112501169234.png"
+
+if [ ! -f "$FACE_PNG" ]; then
+    echo "✗ No se encontró rostro-2. Buscando alternativas..."
+    ls "$TEST_OUTPUT"/*.png 2>/dev/null
+    exit 1
+fi
+
+echo ""
+echo "▸ Copiando rostro-2 al input de ComfyUI..."
+mkdir -p "$COMFYUI_INPUT"
+cp "$FACE_PNG" "$COMFYUI_INPUT/rostro-2-selected.png"
+echo "✓ Copiado como: rostro-2-selected.png"
+
+echo ""
+echo "▸ Iniciando Fase 2 — 4 variaciones de cuerpo..."
 cd "$REPO_DIR"
-
-echo "▸ Imágenes en test-output:"
-ls "$OUTPUT_DIR"/*.png 2>/dev/null || echo "NINGUNA"
-
-mkdir -p "$IMG_DIR"
-cp "$OUTPUT_DIR"/*.png "$IMG_DIR/" 2>/dev/null
-
-echo "▸ Imágenes copiadas:"
-ls -lh "$IMG_DIR/"
-
-git add daemon/output/
-git diff --cached --quiet && echo "Ya estaban commiteadas" || git commit -m "images: rostros latinas generados"
-
-echo "▸ Pusheando a GitHub..."
-git push "$REMOTE" HEAD:"$BRANCH" && echo "✓ LISTO — imágenes en GitHub" || echo "✗ Push falló"
+python3 test-fase2.py "rostro-2-selected.png"
+echo "✓ Fase 2 completada"
