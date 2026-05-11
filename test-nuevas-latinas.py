@@ -21,7 +21,7 @@ PERFILES = [
         # labios llenos con cupid's bow definido, cabello oscuro ondulado, sonrisa cálida
         "nombre": "La Cubana",
         "brief_text": "striking cuban beauty, effortless warm charm, natural actress magnetism",
-        "photo_type": "Studio 2x2 portrait multi-view grid",
+        "photo_type": "Studio white background",
         "sex": "female",
         "ethnicity": "Latin American",
         "eye_shape": "almond-shaped",
@@ -71,7 +71,7 @@ PERFILES = [
         # estructura ósea definida, cabello liso muy largo oscuro, presencia feroz
         "nombre": "La Mexicana",
         "brief_text": "bold fearless mexican model, fierce confidence, powerful bone structure",
-        "photo_type": "Studio 2x2 portrait multi-view grid",
+        "photo_type": "Studio white background",
         "sex": "female",
         "ethnicity": "Latin American",
         "eye_shape": "almond-shaped",
@@ -121,7 +121,7 @@ PERFILES = [
         # cabello ondulado voluminoso, energía sensual y cálida caribeña
         "nombre": "La Caribeña",
         "brief_text": "caribbean goddess energy, sensual magnetic warmth, irresistible tropical beauty",
-        "photo_type": "Studio 2x2 portrait multi-view grid",
+        "photo_type": "Studio white background",
         "sex": "female",
         "ethnicity": "Caribbean",
         "eye_shape": "almond-shaped",
