@@ -1,22 +1,31 @@
 #!/bin/bash
-# JOB: Diagnóstico de PAT y push forzado
-PAT=$(cat /workspace/.zami_pat | tr -d '\n\r' | tr -d ' ')
-PAT_LEN=${#PAT}
-PAT_START="${PAT:0:8}"
+# JOB: Corregir PAT duplicado y hacer push
+PAT_FILE="/workspace/.zami_pat"
 
-echo "▸ PAT longitud: $PAT_LEN caracteres"
-echo "▸ PAT inicio: ${PAT_START}..."
+# El PAT tiene 80 chars (duplicado), debe ser 40 — tomar solo la primera mitad
+CURRENT_LEN=$(cat "$PAT_FILE" | tr -d '\n\r' | wc -c)
+echo "▸ Longitud actual del PAT: $CURRENT_LEN"
 
-# Test con curl directamente
-echo "▸ Test curl auth:"
+if [ "$CURRENT_LEN" -gt 40 ]; then
+    head -c 40 "$PAT_FILE" > /tmp/pat_fix
+    echo "" >> /tmp/pat_fix
+    mv /tmp/pat_fix "$PAT_FILE"
+    chmod 600 "$PAT_FILE"
+    echo "✓ PAT corregido a 40 caracteres"
+fi
+
+PAT=$(cat "$PAT_FILE" | tr -d '\n\r')
+echo "▸ Nueva longitud: ${#PAT}"
+
+# Test
 HTTP=$(curl -s -o /dev/null -w "%{http_code}" \
     -H "Authorization: token $PAT" \
     https://api.github.com/user)
-echo "  GitHub API responde: $HTTP"
+echo "▸ GitHub API: $HTTP"
 
-# Push con formato username:token
-echo "▸ Intentando push con Se7en198:TOKEN..."
+# Push
 cd /workspace/Zami-girls
-git push "https://Se7en198:${PAT}@github.com/Se7en198/Zami-girls.git" \
+git push "https://${PAT}@github.com/Se7en198/Zami-girls.git" \
     HEAD:claude/ugc-profile-generator-PxVGb \
-    && echo "✓ Push exitoso" || echo "✗ Push falló"
+    && echo "✓ Push exitoso — imágenes en GitHub" \
+    || echo "✗ Push falló"
