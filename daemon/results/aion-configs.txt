@@ -1,4 +1,4 @@
-=== CONFIGS AION ===
+=== AION CONFIGS ===
 --- defects.json ---
 {
   "wrinkles": {
