@@ -12,13 +12,11 @@ if [ ! -f "$PAT_FILE" ]; then
     echo "[$(date)] ERROR: No se encontró $PAT_FILE" | tee -a "$LOG"; exit 1
 fi
 PAT=$(cat "$PAT_FILE" | tr -d '\n\r')
-REMOTE="https://x-access-token:${PAT}@github.com/Se7en198/Zami-girls.git"
+REMOTE="https://${PAT}@github.com/Se7en198/Zami-girls.git"
 
 # Configurar git globalmente
 git config --global user.email "daemon@zami.local"
 git config --global user.name "Zami Daemon"
-git config --global credential.helper store
-echo "https://x-access-token:${PAT}@github.com" > ~/.git-credentials
 
 mkdir -p "$DONE_DIR"
 echo "[$(date)] Zami Daemon v2 iniciado (PID $$)" | tee -a "$LOG"
