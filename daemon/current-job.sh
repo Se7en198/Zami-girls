@@ -1,7 +1,7 @@
 #!/bin/bash
 # JOB: Fase 1 — Latina Lightskin (1 modelo)
 # Nariz prominente estilizada · Ojos azul profundo · Cabello muy crespo
-# Triggered: 2026-05-11T2
+# Triggered: 2026-05-11T3 (multi-view)
 set -euo pipefail
 
 PAT=$(cat /workspace/.zami_pat | tr -d '\n\r ')

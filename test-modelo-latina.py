@@ -17,7 +17,7 @@ PERFIL = {
     "nombre": "Latina Lightskin",
 
     # Encuadre
-    "photo_type": "Studio white background",
+    "photo_type": "Studio 2x2 portrait multi-view grid",
     "brief_text": (
         "lightskin latina model, natural stunning beauty, striking deep blue eyes, "
         "gorgeous very tight curly hair, prominent stylized nose, small plump sexy lips, "
