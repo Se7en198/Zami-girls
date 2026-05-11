@@ -1,24 +1,32 @@
 #!/bin/bash
-# JOB: Pushear imágenes ya generadas a GitHub
+# JOB: Pushear imágenes existentes a GitHub
 REPO_DIR="/workspace/Zami-girls"
 OUTPUT_DIR="$REPO_DIR/test-output"
 IMG_DIR="$REPO_DIR/daemon/output"
-PAT=$(cat /workspace/.zami_pat)
-REMOTE="https://${PAT}@github.com/Se7en198/Zami-girls.git"
+PAT=$(cat /workspace/.zami_pat | tr -d '\n\r')
+REMOTE="https://x-access-token:${PAT}@github.com/Se7en198/Zami-girls.git"
 BRANCH="claude/ugc-profile-generator-PxVGb"
 
-echo "[$(date)] ▸ Archivos en test-output:"
-ls -lh "$OUTPUT_DIR/" 2>/dev/null || echo "Directorio vacío o no existe"
+echo "▸ Imágenes en test-output:"
+ls -lh "$OUTPUT_DIR/"*.png 2>/dev/null || echo "  (ninguna encontrada)"
 
 mkdir -p "$IMG_DIR"
-cp "$OUTPUT_DIR"/*.png "$IMG_DIR/" 2>/dev/null && echo "✓ Imágenes copiadas" || echo "✗ No se encontraron PNGs en $OUTPUT_DIR"
+COUNT=$(ls "$OUTPUT_DIR"/*.png 2>/dev/null | wc -l)
 
+if [ "$COUNT" -eq 0 ]; then
+    echo "✗ No hay imágenes PNG en $OUTPUT_DIR"
+    echo "  Contenido del directorio:"
+    ls -la "$OUTPUT_DIR/" 2>/dev/null || echo "  Directorio no existe"
+    exit 0
+fi
+
+cp "$OUTPUT_DIR"/*.png "$IMG_DIR/"
+echo "✓ $COUNT imágenes copiadas a daemon/output/"
 ls -lh "$IMG_DIR/"
 
 cd "$REPO_DIR"
-git config user.email "daemon@zami.local"
-git config user.name "Zami Daemon"
 git add daemon/output/
-git commit -m "images: subir rostros generados" || echo "Nada nuevo para commitear"
-git push "$REMOTE" "$BRANCH"
-echo "[$(date)] ✓ Listo"
+git diff --cached --quiet && echo "Nada nuevo" && exit 0
+git commit -m "images: $COUNT rostros latinas generados"
+git push "$REMOTE" HEAD:"$BRANCH"
+echo "✓ Imágenes pusheadas a GitHub"
