@@ -25,6 +25,11 @@ fi
 PAT=$(cat "$PAT_FILE")
 REMOTE="https://${PAT}@github.com/Se7en198/Zami-girls.git"
 
+# Configurar identidad git en el pod
+git config --global user.email "zami-daemon@runpod.local"
+git config --global user.name "Zami Daemon"
+echo "▸ Git identity configurada"
+
 # Clonar o actualizar repo
 if [ ! -d "$REPO_DIR/.git" ]; then
     echo "▸ Clonando repo..."
@@ -49,8 +54,9 @@ DAEMON_PID=$!
 echo $DAEMON_PID > /tmp/zami-daemon.pid
 
 echo ""
-echo "✓ Daemon corriendo (PID $DAEMON_PID)"
-echo "✓ Logs: tail -f $REPO_DIR/daemon/daemon.log"
+echo "✓ Daemon corriendo — PID: $DAEMON_PID"
+echo "✓ Log de arranque : tail -f /tmp/zami-daemon-boot.log"
+echo "✓ Log del daemon  : tail -f $REPO_DIR/daemon/daemon.log"
 echo ""
 echo "  Claude ya controla el pod. No necesitas hacer nada más."
 echo ""
