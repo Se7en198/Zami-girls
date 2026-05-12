@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
 import { Wand2, Check, RefreshCw, ChevronRight, Loader2, AlertCircle } from 'lucide-react'
 import { supabase } from '../lib/supabase.js'
-import { generateFaces, waitForResult, extractImages, imageUrl } from '../api/comfyui.js'
+import { buildFaceWorkflow } from '../api/comfyui.js'
+import { runFaceJob, b64ToDataUrl } from '../api/runpod.js'
 import baseWorkflow from '../workflows/face-generation.json'
 
 // ─── FACIAL FEATURE OPTIONS ───────────────────────────────────────────────────
@@ -61,71 +62,69 @@ export default function Phase1Face({ model, onAdvance, onRefresh }) {
     setParams(p => ({ ...p, [key]: val }))
   }
 
-  // ── Generate 4 faces ─────────────────────────────────────────────────────
+  // ── Generate 4 faces via RunPod Serverless ───────────────────────────────
   async function handleGenerate() {
     setGenerating(true)
     setError(null)
-    setFaces([])
     setSelected(null)
 
     // Clear previous DB rows for this model/phase
     await supabase.from('phase_images').delete().eq('model_id', model.id).eq('phase', 1)
 
-    try {
-      // Queue 4 ComfyUI jobs
-      const jobs = await generateFaces(baseWorkflow, params, 4)
+    // Build 4 workflows with different seeds
+    const jobs = Array.from({ length: 4 }, (_, i) => {
+      const { workflow, seed } = buildFaceWorkflow(baseWorkflow, params)
+      const tempId = `pending-${i}`
+      return { tempId, workflow, seed }
+    })
 
-      // Create placeholder cards
-      setFaces(jobs.map(j => ({ id: j.promptId, promptId: j.promptId, seed: j.seed, status: 'pending', url: null })))
+    // Show 4 placeholder cards immediately
+    setFaces(jobs.map(j => ({ id: j.tempId, tempId: j.tempId, seed: j.seed, status: 'pending', url: null })))
 
-      // Poll each job concurrently
-      await Promise.all(jobs.map(async (job) => {
-        try {
-          const result = await waitForResult(job.promptId, (tick) => {
-            if (tick % 5 === 0) {
-              setFaces(prev => prev.map(f =>
-                f.promptId === job.promptId ? { ...f, status: 'generating' } : f
-              ))
-            }
-          })
-
-          const images = extractImages(result)
-          // Use the final SaveImage output (node 6 = upscaled)
-          const img = images[images.length - 1]
-
-          if (img) {
-            // Save to Supabase
-            const { data: saved } = await supabase
-              .from('phase_images')
-              .insert({
-                model_id: model.id,
-                phase: 1,
-                comfyui_prompt_id: job.promptId,
-                filename: img.filename,
-                image_url: img.url,
-                seed: job.seed,
-                is_selected: false,
-              })
-              .select()
-              .single()
-
+    // Submit all 4 jobs to RunPod in parallel
+    await Promise.all(jobs.map(async (job) => {
+      try {
+        const { jobId, images: b64Images } = await runFaceJob(
+          job.workflow,
+          `face_${model.id}_${job.seed}`,
+          (status) => {
+            const uiStatus = status === 'IN_QUEUE' ? 'pending' : 'generating'
             setFaces(prev => prev.map(f =>
-              f.promptId === job.promptId
-                ? { ...f, id: saved?.id || job.promptId, url: img.url, status: 'done' }
-                : f
+              f.tempId === job.tempId ? { ...f, status: uiStatus } : f
             ))
           }
-        } catch (err) {
-          setFaces(prev => prev.map(f =>
-            f.promptId === job.promptId ? { ...f, status: 'error' } : f
-          ))
-        }
-      }))
-    } catch (err) {
-      setError(err.message)
-    } finally {
-      setGenerating(false)
-    }
+        )
+
+        const dataUrl = b64ToDataUrl(b64Images[0])
+        const filename = `${crypto.randomUUID()}.png`
+
+        const { data: saved } = await supabase
+          .from('phase_images')
+          .insert({
+            model_id: model.id,
+            phase: 1,
+            comfyui_prompt_id: jobId,
+            filename,
+            image_url: dataUrl,
+            seed: job.seed,
+            is_selected: false,
+          })
+          .select()
+          .single()
+
+        setFaces(prev => prev.map(f =>
+          f.tempId === job.tempId
+            ? { ...f, id: saved?.id || job.tempId, url: dataUrl, status: 'done' }
+            : f
+        ))
+      } catch (err) {
+        setFaces(prev => prev.map(f =>
+          f.tempId === job.tempId ? { ...f, status: 'error' } : f
+        ))
+      }
+    }))
+
+    setGenerating(false)
   }
 
   // ── Select a face ─────────────────────────────────────────────────────────
@@ -243,7 +242,7 @@ export default function Phase1Face({ model, onAdvance, onRefresh }) {
             <div className="flex items-start gap-3 bg-red-500/10 border border-red-500/30 rounded-xl p-4 mb-4 text-sm text-red-400">
               <AlertCircle size={16} className="mt-0.5 flex-shrink-0" />
               <div>
-                <p className="font-semibold mb-0.5">Error de conexión con ComfyUI</p>
+                <p className="font-semibold mb-0.5">Error de conexión con RunPod Serverless</p>
                 <p className="text-red-400/70">{error}</p>
               </div>
             </div>

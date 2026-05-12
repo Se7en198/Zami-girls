@@ -1,3 +1,8 @@
+# Environment variables (never commit secrets)
+.env
+.env.local
+.env.*.local
+
 # Logs
 *.log
 npm-debug.log*
@@ -10,6 +15,7 @@ node_modules
 dist
 dist-ssr
 *.local
+supabase/.temp
 
 # Editor directories and files
 .vscode/*
