@@ -22,7 +22,7 @@ Stack:
 
 | Fase | Nombre | Estado |
 |------|--------|--------|
-| 1 | Generación de Rostro | ✅ Código listo, pendiente anon key Supabase en `.env` |
+| 1 | Generación de Rostro | ✅ Código listo + `.env` completo → listo para probar |
 | 2 | Cuerpo | ⏳ UI existe, workflow `body-generation.json` existe, sin integrar a RunPod |
 | 3–6 | Perfil, Contenido, Respuestas, KPIs | ⏳ UI placeholder |
 
@@ -54,7 +54,7 @@ RunPod bloquea IPs de data centers con 403. El browser del usuario (IP residenci
 
 **Solución implementada**: Supabase Edge Function `runpod-proxy` como proxy intermedio.
 - Código: `supabase/functions/runpod-proxy/index.ts` ✅ (en repo)
-- Deploy en Supabase: ❌ **PENDIENTE**
+- Deploy en Supabase: ❌ **PENDIENTE** (ver paso 2 abajo)
 
 ---
 
@@ -75,17 +75,18 @@ RunPod bloquea IPs de data centers con 403. El browser del usuario (IP residenci
 
 ---
 
-## Variables de entorno necesarias (`.env` local — nunca commitear)
+## Variables de entorno (`.env` local — nunca commitear)
+
+El archivo `.env` local YA TIENE los 4 valores configurados:
 
 ```env
-# RunPod (ya configurado en .env local)
-VITE_RUNPOD_API_KEY=<ver con el usuario — está en su .env local>
+VITE_RUNPOD_API_KEY=<en el .env local del usuario>
 VITE_RUNPOD_ENDPOINT_ID=aqzsu0jydlras1
-
-# Supabase — PENDIENTE añadir al .env local
 VITE_SUPABASE_URL=https://vtyuylgfjvleywupbdzl.supabase.co
-VITE_SUPABASE_ANON_KEY=<obtener de: Supabase Dashboard → Settings → API → "anon public">
+VITE_SUPABASE_ANON_KEY=<en el .env local del usuario>
 ```
+
+✅ El `.env` está completo. El dashboard puede arrancar con `npm run dev`.
 
 ---
 
@@ -100,33 +101,36 @@ VITE_SUPABASE_ANON_KEY=<obtener de: Supabase Dashboard → Settings → API → 
 
 ## Lo que falta hacer (en orden de prioridad)
 
-### 1. INMEDIATO — Añadir anon key de Supabase al `.env` local
-El usuario debe añadir al archivo `.env` en la raíz del proyecto:
+### 1. ✅ Probar el dashboard (puede hacerse ahora)
+```bash
+npm run dev
 ```
-VITE_SUPABASE_URL=https://vtyuylgfjvleywupbdzl.supabase.co
-VITE_SUPABASE_ANON_KEY=<copiar de Supabase Dashboard → Settings → API → "anon public">
-```
-Con esto el dashboard funciona al 100% desde el browser.
+Abrir el browser → seleccionar un modelo → Fase 1 → "Generar 4 rostros".  
+Las imágenes deben aparecer (el browser llama a RunPod directamente sin bloqueo).
 
-**Dónde ir**: https://supabase.com/dashboard/project/vtyuylgfjvleywupbdzl/settings/api
-
-### 2. Deploy Supabase Edge Function (una sola vez)
-El proxy `runpod-proxy` ya tiene su código en el repo. Falta desplegarlo:
+### 2. Deploy Supabase Edge Function (una sola vez — necesario para automatización desde servidor)
+El proxy `runpod-proxy` ya tiene su código en el repo. Falta desplegarlo.  
+Ejecutar en terminal dentro del proyecto:
 ```bash
 supabase login
 supabase link --project-ref vtyuylgfjvleywupbdzl
 supabase functions deploy runpod-proxy --no-verify-jwt
-supabase secrets set RUNPOD_API_KEY=<la api key de runpod>
+supabase secrets set RUNPOD_API_KEY=<la api key de runpod del .env>
 supabase secrets set RUNPOD_ENDPOINT_ID=aqzsu0jydlras1
 ```
-Esto activa la automatización desde el servidor (Claude Code → Supabase → RunPod).
 
-### 3. Integrar Fase 2 (Cuerpo) a RunPod Serverless
+### 3. Hacer merge del PR a main
+- **PR**: https://github.com/Se7en198/Zami-girls/pull/1
+- **Branch**: `claude/plan-runpod-deployment-UjZRF`
+- Hacer merge cuando Fase 1 esté probada y funcionando.
+
+### 4. Integrar Fase 2 (Cuerpo) a RunPod Serverless
 - Workflow: `src/workflows/body-generation.json`
 - UI: `src/phases/Phase2Body.jsx`
 - Mismo patrón que Fase 1: `runFaceJob()` → `b64ToDataUrl()` → guardar en Supabase
+- Necesita un segundo endpoint RunPod Serverless con el workflow de cuerpo
 
-### 4. Fases 3–6
+### 5. Fases 3–6
 - Definir qué genera cada fase
 - Implementar siguiendo el mismo patrón de Fase 1
 
@@ -149,11 +153,12 @@ Usuario → "Generar 4 rostros"
 
 ---
 
-## Rama de trabajo activa
+## Notas técnicas importantes
 
-- **Branch**: `claude/plan-runpod-deployment-UjZRF`
-- **PR**: https://github.com/Se7en198/Zami-girls/pull/1
-- Hacer merge a `main` cuando todo esté probado y funcionando
+- **`buildFaceWorkflow()`** está en `src/api/comfyui.js` — se reutiliza sin cambios.
+- **Cold start**: 30–60s la primera vez que se lanza un job (el worker arranca desde cero). El estado `IN_QUEUE` dura ese tiempo — es normal.
+- **4 workers en paralelo**: RunPod puede escalar. Los 4 jobs simultáneos son válidos.
+- **No tocar**: `serverless/handler.py`, `Dockerfile`, workflows JSON.
 
 ---
 
@@ -163,4 +168,4 @@ Empieza la conversación así:
 
 > "Lee el archivo CONTEXT.md en el repositorio https://github.com/Se7en198/Zami-girls y continúa desde donde está el proyecto. El usuario no sabe de código — tú tomas el control y haces todo."
 
-La IA debe leer este archivo, entender el estado, y continuar sin que tengas que explicar nada.
+La IA leerá este archivo, entenderá todo el contexto, y continuará sin que tengas que explicar nada.
