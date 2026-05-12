@@ -1,0 +1,81 @@
+name: Generate Face Test
+
+on:
+  workflow_dispatch:
+    inputs:
+      eye_color:
+        description: 'Eye color'
+        default: 'green'
+      hair_length:
+        description: 'Hair length'
+        default: 'short bob'
+      nose_profile:
+        description: 'Nose profile'
+        default: 'prominent'
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Run face generation
+        env:
+          RUNPOD_API_KEY: ${{ secrets.RUNPOD_API_KEY }}
+        run: |
+          python3 << 'PYEOF'
+          import os, sys, time, json, base64, requests, random
+
+          API_KEY = os.environ["RUNPOD_API_KEY"]
+          ENDPOINT = "aqzsu0jydlras1"
+          BASE = f"https://api.runpod.ai/v2/{ENDPOINT}"
+          HEADERS = {"Authorization": f"Bearer {API_KEY}", "Content-Type": "application/json"}
+
+          with open("src/workflows/face-generation.json") as f:
+              wf = json.load(f)
+
+          seed = random.randint(0, 999_999_999_999_999)
+          if "78" in wf: wf["78"]["inputs"]["seed"] = seed
+          if "14" in wf: wf["14"]["inputs"]["noise_seed"] = random.randint(0, 999_999_999_999_999)
+          if "73" in wf: wf["73"]["inputs"]["seed"] = random.randint(0, 999_999_999_999_999)
+          if "82" in wf:
+              wf["82"]["inputs"]["ethnicity"] = "Hispanic"
+              wf["82"]["inputs"]["eye_color"] = "green"
+              wf["82"]["inputs"]["hair_length"] = "short bob"
+              wf["82"]["inputs"]["nose_profile"] = "prominent"
+              wf["82"]["inputs"]["skin_tone"] = "medium"
+              wf["82"]["inputs"]["expression"] = "soft smile"
+              wf["82"]["inputs"]["brief_text"] = "beautiful latina woman, photorealistic"
+
+          r = requests.post(f"{BASE}/run", json={"input": {"workflow": wf, "job_name": "test_face"}}, headers=HEADERS, timeout=30)
+          r.raise_for_status()
+          job_id = r.json()["id"]
+          print(f"Job ID: {job_id}")
+
+          for i in range(150):
+              time.sleep(6)
+              r = requests.get(f"{BASE}/status/{job_id}", headers=HEADERS, timeout=15)
+              data = r.json()
+              print(f"[{(i+1)*6}s] {data['status']}")
+              if data["status"] == "COMPLETED":
+                  images = data["output"]["images"]
+                  with open("generated-face.png", "wb") as f:
+                      f.write(base64.b64decode(images[0]))
+                  print(f"SUCCESS: Image saved ({len(images[0])//1024} KB base64)")
+                  sys.exit(0)
+              if data["status"] in ("FAILED","CANCELLED","TIMED_OUT"):
+                  print(f"FAILED: {data}")
+                  sys.exit(1)
+          print("TIMEOUT")
+          sys.exit(1)
+          PYEOF
+
+      - name: Upload image as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: generated-face
+          path: generated-face.png
+          retention-days: 1
