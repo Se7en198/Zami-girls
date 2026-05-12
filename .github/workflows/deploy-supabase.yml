@@ -17,19 +17,14 @@ jobs:
         with:
           version: latest
 
-      - name: Link Supabase project
-        run: supabase link --project-ref ${{ secrets.SUPABASE_PROJECT_REF }}
-        env:
-          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
-
       - name: Deploy runpod-proxy
-        run: supabase functions deploy runpod-proxy --no-verify-jwt
+        run: supabase functions deploy runpod-proxy --project-ref ${{ secrets.SUPABASE_PROJECT_REF }} --no-verify-jwt
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
 
       - name: Set RunPod secrets
         run: |
-          supabase secrets set RUNPOD_API_KEY=${{ secrets.RUNPOD_API_KEY }}
-          supabase secrets set RUNPOD_ENDPOINT_ID=${{ secrets.RUNPOD_ENDPOINT_ID }}
+          supabase secrets set RUNPOD_API_KEY=${{ secrets.RUNPOD_API_KEY }} --project-ref ${{ secrets.SUPABASE_PROJECT_REF }}
+          supabase secrets set RUNPOD_ENDPOINT_ID=${{ secrets.RUNPOD_ENDPOINT_ID }} --project-ref ${{ secrets.SUPABASE_PROJECT_REF }}
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
