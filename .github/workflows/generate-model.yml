@@ -1,0 +1,45 @@
+name: Generate Model
+
+on:
+  workflow_dispatch:
+    inputs:
+      profile:
+        description: 'JSON string with AION profile parameters'
+        required: true
+        type: string
+      job_name:
+        description: 'Job name for output file'
+        required: true
+        default: 'model'
+        type: string
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Generate model via RunPod + ComfyUI
+        env:
+          RUNPOD_API_KEY: ${{ secrets.RUNPOD_API_KEY }}
+          POD_ID: ${{ secrets.RUNPOD_POD_ID }}
+          PROFILE_JSON: ${{ inputs.profile }}
+          JOB_NAME: ${{ inputs.job_name }}
+        run: python3 src/runpod_generate.py
+
+      - name: Commit generated image
+        run: |
+          git config user.email "daemon@zami.local"
+          git config user.name "Zami Actions"
+          git add daemon/output/
+          git diff --staged --quiet || git commit -m "output: ${{ inputs.job_name }} generado por GitHub Actions"
+          git push
