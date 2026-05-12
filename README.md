@@ -1,20 +1,26 @@
 # Zami Girls — AI Virtual Influencer UGC Studio
 
-Automated pipeline for generating AI virtual influencer content using ComfyUI on RunPod. A git-based daemon on the pod polls GitHub every 20s for jobs dispatched by Claude, enabling remote-controlled image generation without SSH.
+Automated pipeline for generating AI virtual influencer content using ComfyUI on RunPod Serverless. The system uses an on-demand endpoint that scales to zero, optimizing costs and eliminating the legacy daemon-polling logic.
 
 ---
 
 ## Automation Rules — READ FIRST
 
-This system is FULLY AUTOMATED after initial setup. Claude Code handles everything.
+This system is FULLY AUTOMATED via RunPod Serverless.
 
 ### How it works:
-1. User talks to Claude → Claude pushes job to GitHub via MCP
-2. Daemon on RunPod polls GitHub every 20s → picks up job automatically
-3. Daemon executes job → generates images → pushes results to GitHub
-4. Claude reads results from GitHub → shows user
+1. User interacts with Dashboard/Claude → Request sent to RunPod API.
+2. RunPod Serverless Endpoint (`aqzsu0jydlras1`) activates a GPU worker.
+3. Worker executes the ComfyUI workflow → Returns images in base64.
+4. Dashboard displays the results immediately.
+
+### Key Deployment Info:
+- **Endpoint ID**: `aqzsu0jydlras1`
+- **Worker Repo**: [Se7en198/comfyui-aion-creador-de-rostros-con-nano-banana-pro](https://github.com/Se7en198/comfyui-aion-creador-de-rostros-con-nano-banana-pro)
+- **API Key**: (Stored in .env)
 
 ### User NEVER needs to:
+
 - Open a pod terminal
 - Copy-paste commands
 - Manually trigger anything
