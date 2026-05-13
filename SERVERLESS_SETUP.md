@@ -21,9 +21,9 @@ Este documento resume los avances realizados para mover la infraestructura de "Z
 
 ## 📋 Próximos Pasos (Para el siguiente agente)
 
-1. **Integración en el Dashboard**:
-   - Crear `src/api/runpod.js` para manejar las llamadas `/run` y el polling de `/status/{job_id}`.
-   - Actualizar `Phase1Face.jsx` para que llame a la API de RunPod Serverless en lugar de esperar el push de GitHub.
+1. **Integración en el Dashboard** ✅:
+   - `src/api/runpod.js` creado para `/run` + polling `/status/{job_id}`.
+   - `Phase1Face.jsx` actualizado para usar RunPod Serverless con 4 jobs en paralelo y guardar data URI en Supabase.
 2. **Variables de Entorno**:
    - Actualizar el archivo `.env` local con el `VITE_RUNPOD_API_KEY` y `VITE_RUNPOD_ENDPOINT_ID`.
 3. **Limpieza**:
