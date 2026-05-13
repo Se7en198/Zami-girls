@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
 import { Wand2, Check, RefreshCw, ChevronRight, Loader2, AlertCircle } from 'lucide-react'
 import { supabase } from '../lib/supabase.js'
-import { generateFaces, waitForResult, extractImages, imageUrl } from '../api/comfyui.js'
+import { buildFaceWorkflow } from '../api/comfyui.js'
+import { submitRunpodJob, waitForRunpodResult, b64ToDataUrl } from '../api/runpod.js'
 import baseWorkflow from '../workflows/face-generation.json'
 
 // ─── FACIAL FEATURE OPTIONS ───────────────────────────────────────────────────
@@ -72,52 +73,54 @@ export default function Phase1Face({ model, onAdvance, onRefresh }) {
     await supabase.from('phase_images').delete().eq('model_id', model.id).eq('phase', 1)
 
     try {
-      // Queue 4 ComfyUI jobs
-      const jobs = await generateFaces(baseWorkflow, params, 4)
+      const jobs = Array.from({ length: 4 }).map((_, i) => {
+        const { workflow, seed } = buildFaceWorkflow(baseWorkflow, params)
+        return { workflow, seed, index: i }
+      })
 
-      // Create placeholder cards
-      setFaces(jobs.map(j => ({ id: j.promptId, promptId: j.promptId, seed: j.seed, status: 'pending', url: null })))
+      setFaces(jobs.map(j => ({ id: `pending-${j.index}`, promptId: null, seed: j.seed, status: 'pending', url: null })))
 
-      // Poll each job concurrently
       await Promise.all(jobs.map(async (job) => {
         try {
-          const result = await waitForResult(job.promptId, (tick) => {
-            if (tick % 5 === 0) {
+          const submit = await submitRunpodJob(job.workflow, `face_${job.index + 1}`)
+          const jobId = submit.id
+
+          setFaces(prev => prev.map(f =>
+            f.seed === job.seed ? { ...f, promptId: jobId, id: jobId } : f
+          ))
+
+          const { images } = await waitForRunpodResult(jobId, {
+            onProgress: () => {
               setFaces(prev => prev.map(f =>
-                f.promptId === job.promptId ? { ...f, status: 'generating' } : f
+                (f.promptId === jobId || f.seed === job.seed) ? { ...f, status: 'generating' } : f
               ))
-            }
+            },
           })
 
-          const images = extractImages(result)
-          // Use the final SaveImage output (node 6 = upscaled)
-          const img = images[images.length - 1]
+          const dataUrl = b64ToDataUrl(images[0])
 
-          if (img) {
-            // Save to Supabase
-            const { data: saved } = await supabase
-              .from('phase_images')
-              .insert({
-                model_id: model.id,
-                phase: 1,
-                comfyui_prompt_id: job.promptId,
-                filename: img.filename,
-                image_url: img.url,
-                seed: job.seed,
-                is_selected: false,
-              })
-              .select()
-              .single()
+          const { data: saved } = await supabase
+            .from('phase_images')
+            .insert({
+              model_id: model.id,
+              phase: 1,
+              comfyui_prompt_id: jobId,
+              filename: `${jobId}.png`,
+              image_url: dataUrl,
+              seed: job.seed,
+              is_selected: false,
+            })
+            .select()
+            .single()
 
-            setFaces(prev => prev.map(f =>
-              f.promptId === job.promptId
-                ? { ...f, id: saved?.id || job.promptId, url: img.url, status: 'done' }
-                : f
-            ))
-          }
+          setFaces(prev => prev.map(f =>
+            (f.promptId === jobId || f.seed === job.seed)
+              ? { ...f, id: saved?.id || jobId, promptId: jobId, url: dataUrl, status: 'done' }
+              : f
+          ))
         } catch (err) {
           setFaces(prev => prev.map(f =>
-            f.promptId === job.promptId ? { ...f, status: 'error' } : f
+            f.seed === job.seed ? { ...f, status: 'error' } : f
           ))
         }
       }))
